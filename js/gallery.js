@@ -11,24 +11,24 @@ import { images } from "./images.js";
   </a>
 </li> */
 const imagesList = document.querySelector(".gallery");
-images.forEach((image) => {
-  const listItem = document.createElement("li");
-  listItem.classList.add("gallery-item");
+const markup = images
+  .map((image) => {
+    return `
+<li class="gallery-item">
+  <a class="gallery-link" href="${image.original}">
+    <img
+      class="gallery-image"
+      src="${image.preview}"
+      data-source="${image.original}"
+      alt="${image.description}"
+    />
+  </a>
+</li>
+`;
+  })
+  .join("");
 
-  const listItemLink = document.createElement("a");
-  listItemLink.classList.add("gallery-link");
-  listItemLink.href = image.original;
-
-  const listItemImage = document.createElement("img");
-  listItemImage.classList.add("gallery-image");
-  listItemImage.src = image.preview;
-  listItemImage.alt = image.description;
-  listItemImage.dataset.source = image.original;
-
-  listItemLink.append(listItemImage);
-  listItem.append(listItemLink);
-  imagesList.append(listItem);
-});
+imagesList.insertAdjacentHTML("beforeend", markup);
 
 imagesList.addEventListener("click", (event) => {
   event.preventDefault();
